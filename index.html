@@ -16,7 +16,6 @@
     <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.18.3/dist/index.js"></script>
 
     <style>
-        /* កំណត់ទម្រង់អក្សរ Khmer OS Battambang ទៅកាន់គ្រប់ផ្នែកទាំងអស់ */
         body, textarea, button, input, label, h2, h3, span, div { 
             font-family: 'Battambang', 'Khmer OS Battambang', 'Segoe UI', sans-serif; 
         }
@@ -25,7 +24,6 @@
         .container { max-width: 700px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); position: relative; transition: background-color 0.3s; }
         h2 { color: #2c3e50; margin-bottom: 20px; }
         
-        /* របៀបរៀបរយ Dark Mode */
         body.dark-mode { background-color: #1a1a1a; color: #f0f2f5; }
         body.dark-mode .container { background-color: #2d2d2d; box-shadow: 0 4px 15px rgba(0,0,0,0.5); }
         body.dark-mode h2, body.dark-mode h3, body.dark-mode label { color: #ecf0f1; }
@@ -34,34 +32,87 @@
         body.dark-mode .result-box { background: #3a3a3a; color: #ecf0f1; }
         body.dark-mode .controls-bar { background: #2c3e50; color: white; }
 
-        /* ប៊ូតុង Dark Mode */
         .theme-switch { position: absolute; top: 25px; right: 30px; cursor: pointer; background: #34495e; color: white; border: none; padding: 8px 12px; border-radius: 20px; font-size: 13px; font-weight: bold; }
         
         .section { margin-bottom: 20px; text-align: left; background: #f8f9fa; padding: 15px; border-radius: 10px; border-left: 5px solid #3498db; }
         label { font-weight: bold; display: block; margin-bottom: 8px; color: #34495e; }
         
         .controls-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; flex-wrap: wrap; gap: 10px; font-size: 14px; background: #ebf5fb; padding: 8px 12px; border-radius: 6px; }
-        .control-item { display: flex; align-items: center; gap: 8px; }
-        .btn-small { padding: 2px 10px; font-size: 14px; border: none; border-radius: 4px; cursor: pointer; background-color: #34495e; color: white; font-weight: bold; }
-        .btn-small:hover { background-color: #2c3e50; }
+        .btn-small { padding: 2px 10px; border: none; border-radius: 4px; cursor: pointer; background-color: #34495e; color: white; }
 
-        textarea { width: 100%; height: 120px; font-size: 18px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; resize: vertical; transition: font-size 0.2s; }
-        input[type="file"] { display: block; margin-top: 5px; }
-        
+        textarea { width: 100%; height: 120px; font-size: 18px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
         .btn-group { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
-        button { flex: 1; min-width: 130px; padding: 12px; font-size: 15px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.2s; color: white; }
+        button { flex: 1; min-width: 130px; padding: 12px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; color: white; }
         
-        .btn-read { background-color: #e74c3c; } .btn-read:hover { background-color: #c0392b; }
-        .btn-pinyin { background-color: #f39c12; } .btn-pinyin:hover { background-color: #d35400; }
-        .btn-translate { background-color: #2ecc71; } .btn-translate:hover { background-color: #27ae60; }
-        .btn-clear { background-color: #7f8c8d; } .btn-clear:hover { background-color: #616a6b; }
-        .btn-save { background-color: #9b59b6; } .btn-save:hover { background-color: #8e44ad; }
+        .btn-read { background-color: #e74c3c; }
+        .btn-pinyin { background-color: #f39c12; }
+        .btn-translate { background-color: #2ecc71; }
+        .btn-clear { background-color: #7f8c8d; }
+        .btn-save { background-color: #9b59b6; }
         
-        .result-box { margin-top: 20px; padding: 15px; border-radius: 8px; background: #edf2f7; text-align: left; font-size: 18px; min-height: 40px; white-space: pre-wrap; }
-        .pinyin-text { font-family: 'Arial', sans-serif; color: #d35400; font-weight: bold; letter-spacing: 1px; }
-        .khmer-text { color: #2c3e50; }
-        .loading { color: #7f8c8d; font-style: italic; }
+        .result-box { margin-top: 20px; padding: 15px; border-radius: 8px; background: #edf2f7; }
+        .char-span { display: inline-block; cursor: pointer; padding: 2px 4px; border-bottom: 2px dotted #f39c12; }
+        .lookup-box { background: #fffdf0; border: 1px solid #f1c40f; padding: 10px; border-radius: 6px; margin-top: 10px; display: none; color: black; }
+        body.dark-mode .lookup-box { background: #444; color: white; }
+        .history-item { display: flex; justify-content: space-between; padding: 8px; border-bottom: 1px solid #ccc; cursor: pointer; }
+    </style>
+</head>
+<body>
 
+<div class="container">
+    <button class="theme-switch" onclick="toggleDarkMode()">🌓 របៀបយប់/ថ្ងៃ</button>
+    <h2>🇨🇳 កម្មវិធីអាន និងបកប្រែភាសាចិនវៃឆ្លាត 🇰🇭</h2>
+    
+    <div class="section">
+        <label>📸 ស្កេនរូបភាព</label>
+        <input type="file" id="imageInput" accept="image/*" onchange="scanImage()">
+        <div id="ocrStatus" style="color:#7f8c8d;"></div>
+    </div>
+
+    <div class="section">
+        <label>✍️ បញ្ចូលអក្សរចិន</label>
+        <textarea id="chineseText" placeholder="បញ្ចូលអក្សរចិន..."></textarea>
+        <div class="btn-group">
+            <button class="btn-read" onclick="speakChinese()">🔊 អាន</button>
+            <button class="btn-pinyin" onclick="generatePinyin()">🔤 ភីនអ៊ិន</button>
+            <button class="btn-translate" onclick="translateToKhmer()">🇰🇭 បកប្រែ</button>
+            <button class="btn-save" onclick="saveToHistory()">💾 រក្សាទុក</button>
+            <button class="btn-clear" onclick="clearAll()">🗑️ លុប</button>
+        </div>
+    </div>
+
+    <div id="lookupBox" class="lookup-box"></div>
+    <div id="resultSection" style="display:none;" class="result-box">
+        <div id="pinyinResult"></div><hr>
+        <div id="translateResult"></div>
+    </div>
+
+    <div class="section">
+        <label>📂 ប្រវត្តិ:</label>
+        <ul id="historyList"></ul>
+    </div>
+</div>
+
+<script>
+// មុខងារចងចាំ Theme និងប្រវត្តិ
+window.onload = () => {
+    if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark-mode');
+    }
+    loadHistory();
+};
+
+function toggleDarkMode() {
+    document.body.classList.toggle('dark-mode');
+    localStorage.setItem('theme', document.body.classList.contains('dark-mode') ? 'dark' : 'light');
+}
+
+// (រក្សាទុក Function ដទៃទៀតដដែល...)
+// [ចំណាំ៖ សូមកូពីកូដ Function ស្កេន, អាន, បកប្រែ និង History ដែលមានពីមុនមកដាក់ពីក្រោមនេះ]
+
+</script>
+</body>
+</html>
         /* ស្ទីលសម្រាប់ពាក្យដែលអាចចុចបាន (Interactive Character) */
         .char-span { display: inline-block; cursor: pointer; padding: 2px 4px; border-radius: 4px; transition: 0.2s; border-bottom: 2px dotted #f39c12; margin-right: 2px; }
         .char-span:hover { background-color: #ffeaa7; color: black; }
