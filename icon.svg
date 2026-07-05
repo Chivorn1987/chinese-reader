@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#E53935;" />
+      <stop offset="100%" style="stop-color:#8E24AA;" />
+    </linearGradient>
+    <linearGradient id="gold-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE082;" />
+      <stop offset="100%" style="stop-color:#FFB300;" />
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="110" fill="url(#bg-grad)"/>
+  <g fill="none" stroke="url(#gold-grad)" stroke-width="14" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M240,380 C190,350 140,350 80,380 L80,160 C140,130 190,130 240,160 Z" />
+    <path d="M272,160 C322,130 372,130 432,160 L432,380 C372,350 322,350 272,380 Z" />
+    <path d="M256,160 L256,395" stroke-width="16"/>
+    <path d="M390,100 C420,120 440,150 440,180" stroke-width="10" />
+    <path d="M410,70 C450,100 475,140 475,180" stroke-width="10" />
+  </g>
+  <text x="352" y="290" font-family="SimSun, STSong, sans-serif" font-size="95" font-weight="bold" fill="url(#gold-grad)" text-anchor="middle">读</text>
+</svg>
+    
