@@ -11,15 +11,19 @@
 
     <style>
         body, textarea, button, input, label, h2, h3, span, div { font-family: 'Battambang', sans-serif; }
-        body { background-color: #f0f2f5; padding: 20px; transition: background-color 0.3s; }
+        body { background-color: #f0f2f5; color: #333; padding: 20px; transition: background-color 0.3s, color 0.3s; }
         .container { max-width: 700px; margin: 0 auto; background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         
         /* Dark Mode */
         body.dark-mode { background-color: #1a1a1a; color: #f0f2f5; }
         body.dark-mode .container { background-color: #2d2d2d; }
-        body.dark-mode textarea { background: #4d4d4d; color: white; }
+        body.dark-mode textarea { background: #4d4d4d; color: white; border: 1px solid #666; }
+        body.dark-mode .controls { background: #3d3d3d; color: white; }
+        body.dark-mode .controls button { background: #555; color: white; border: 1px solid #777; }
+        body.dark-mode .section label { color: #ecf0f1; }
         
         .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: #eef; padding: 10px; border-radius: 8px; }
+        .controls button { background: #ccc; border: none; padding: 5px 15px; border-radius: 4px; cursor: pointer; }
         textarea { width: 100%; height: 120px; font-size: 18px; padding: 10px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
         .btn-group { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
         button { flex: 1; padding: 10px; border: none; border-radius: 6px; cursor: pointer; color: white; font-weight: bold; }
@@ -37,6 +41,7 @@
     <div class="section">
         <label>📸 ស្កេនរូបភាព</label>
         <input type="file" id="imageInput" onchange="scanImage()">
+        <div id="ocrStatus"></div>
     </div>
 
     <div class="controls">
@@ -62,27 +67,21 @@
 </div>
 
 <script>
-// Dark Mode
+// រក្សាទុកកូដ JavaScript របស់អ្នកដែលធ្លាប់មានដដែល គ្រាន់តែជំនួស HTML/CSS ខាងលើនេះជាការស្រេច
 function toggleDarkMode() {
     document.body.classList.toggle('dark-mode');
 }
-
-// ទំហំអក្សរ
 function changeSize(step) {
     let el = document.getElementById('chineseText');
     let size = parseInt(window.getComputedStyle(el).fontSize);
     el.style.fontSize = (size + step) + 'px';
 }
-
-// លុបទាំងអស់
 function clearAll() {
     document.getElementById('chineseText').value = '';
     document.getElementById('resultSection').style.display = "none";
     document.getElementById('lookupBox').style.display = "none";
     window.speechSynthesis.cancel();
 }
-
-// អាន
 function speakChinese() {
     let text = document.getElementById("chineseText").value;
     let u = new SpeechSynthesisUtterance(text);
@@ -90,9 +89,7 @@ function speakChinese() {
     u.rate = document.getElementById('speed').value;
     window.speechSynthesis.speak(u);
 }
-
-// [បន្ថែមមុខងារ generatePinyin, lookupWord, translateToKhmer, scanImage ដដែល...]
-// (ខ្ញុំដាក់កូដត្រឹមនេះដើម្បីអ្នកអាចបន្តពីលើមុខងារដែលធ្លាប់មានស្រាប់)
+// បញ្ចូលមុខងារ generatePinyin, scanImage, translateToKhmer របស់អ្នកពីមុនមកទីនេះ...
 </script>
 </body>
 </html>
