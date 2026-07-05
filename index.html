@@ -18,19 +18,15 @@
         .section { margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; border-left: 5px solid #3498db; }
         body.dark-mode .section { background: #3d3d3d; }
         
-        .controls { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: #eef; padding: 10px; border-radius: 8px; }
-        body.dark-mode .controls { background: #444; }
-        
-        textarea { width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 18px; }
-        body.dark-mode textarea { background: #3d3d3d; color: white; }
+        textarea { width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        body.dark-mode textarea { background: #3d3d3d; color: white; border: 1px solid #555; }
         
         .btn-group { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
         button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; }
         
-        .btn-small { padding: 5px 10px; border-radius: 4px; background: #34495e; color: white; border: none; cursor: pointer; }
-        
-        .result-box { margin-top: 20px; padding: 15px; border-radius: 8px; background: #edf2f7; display: none; }
-        body.dark-mode .result-box { background: #3d3d3d; }
+        .char-span { display: inline-block; cursor: pointer; padding: 2px 4px; border-bottom: 2px dotted #f39c12; margin: 2px; }
+        .lookup-box { background: #fffdf0; border: 1px solid #f1c40f; padding: 15px; border-radius: 8px; margin-top: 10px; display: none; color: black; }
+        body.dark-mode .lookup-box { background: #444; color: white; }
     </style>
 </head>
 <body>
@@ -46,13 +42,7 @@
     </div>
 
     <div class="section">
-        <div class="controls">
-            <span>ល្បឿនអាន: <input type="range" id="speedInput" min="0.5" max="1.5" step="0.25" value="1"></span>
-            <span>ទំហំ: <button class="btn-small" onclick="changeFontSize(2)">+</button> <button class="btn-small" onclick="changeFontSize(-2)">-</button></span>
-        </div>
-        
         <textarea id="chineseText" placeholder="បញ្ចូលអក្សរចិន..."></textarea>
-        
         <div class="btn-group">
             <button style="background:#e74c3c" onclick="speakChinese()">🔊 អាន</button>
             <button style="background:#f39c12" onclick="generatePinyin()">🔤 ភីនអ៊ិន</button>
@@ -61,7 +51,7 @@
         </div>
     </div>
 
-    <div id="resultSection" class="result-box">
+    <div id="resultSection" style="display:none;" class="section">
         <div id="pinyinResult" style="color:#d35400; font-weight:bold;"></div>
         <hr>
         <div id="translateResult"></div>
@@ -71,12 +61,6 @@
 <script>
     function toggleDarkMode() { document.body.classList.toggle('dark-mode'); }
     
-    function changeFontSize(val) {
-        const area = document.getElementById('chineseText');
-        let size = parseInt(window.getComputedStyle(area).fontSize);
-        area.style.fontSize = (size + val) + 'px';
-    }
-
     async function scanImage() {
         const fileInput = document.getElementById('imageInput');
         const status = document.getElementById('ocrStatus');
@@ -99,7 +83,6 @@
         const text = document.getElementById("chineseText").value;
         const u = new SpeechSynthesisUtterance(text);
         u.lang = 'zh-CN';
-        u.rate = document.getElementById('speedInput').value;
         window.speechSynthesis.speak(u);
     }
 
