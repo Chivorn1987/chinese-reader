@@ -13,18 +13,17 @@
         :root {
             --bg-color: #f0f2f5;
             --container-bg: #ffffff;
-            --text-color: #2c3e50; /* ពណ៌អក្សរធម្មតា */
+            --text-color: #2c3e50;
             --section-bg: #f8f9fa;
         }
 
         body.dark-mode {
             --bg-color: #1a1a1a;
             --container-bg: #2d2d2d;
-            --text-color: #d1d1d1; /* ប្តូរពីសសុទ្ធ មកពណ៌ប្រផេះខ្ចី (Soft White) */
+            --text-color: #d1d1d1;
             --section-bg: #3d3d3d;
         }
 
-        /* កំណត់ Font ខ្មែរ */
         body, textarea, button, input, label, h2, h3, span { 
             font-family: 'Battambang', 'Khmer OS Battambang', sans-serif; 
         }
@@ -35,25 +34,6 @@
             padding: 20px; 
             margin: 0; 
             transition: 0.3s;
-            /* Background ទង់ជាតិ */
-            background-image: 
-                url('https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_Cambodia.svg'),
-                url('https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg');
-            background-position: top center, bottom center;
-            background-size: 40% auto, 40% auto;
-            background-repeat: no-repeat, no-repeat;
-            background-attachment: fixed;
-            background-blend-mode: overlay;
-        }
-
-        /* កែភាពព្រីលៗនៃទង់ជាតិ */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: inherit;
-            opacity: 0.3; /* កម្រិតព្រីល 30% */
-            z-index: -1;
         }
 
         .container { max-width: 700px; margin: 0 auto; background: var(--container-bg); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
@@ -62,14 +42,13 @@
         textarea { width: 100%; height: 120px; font-size: 18px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; background: var(--container-bg); color: var(--text-color); }
         
         button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; }
-        .btn-small { padding: 2px 10px; background: #34495e; color: white; border: none; border-radius: 4px; }
         .result-box { margin-top: 20px; padding: 15px; border-radius: 8px; background: rgba(0,0,0,0.05); }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <button onclick="document.body.classList.toggle('dark-mode')" style="float:right; padding:5px 15px; border-radius:20px; border:none; cursor:pointer;">🌓 របៀបយប់/ថ្ងៃ</button>
+    <button onclick="document.body.classList.toggle('dark-mode')" style="float:right; padding:5px 15px; border-radius:20px; border:none; cursor:pointer; background:#34495e; color:white;">🌓 យប់/ថ្ងៃ</button>
     <h2>🇨🇳 កម្មវិធីអាន និងបកប្រែភាសាចិនវៃឆ្លាត 🇰🇭</h2>
     
     <div class="section">
@@ -98,7 +77,6 @@
 </div>
 
 <script>
-    // ស្គ្រីបដដែលរបស់អ្នក...
     async function scanImage() {
         const file = document.getElementById('imageInput').files[0];
         if (!file) return;
@@ -128,6 +106,7 @@
     function clearAll() {
         document.getElementById('chineseText').value = '';
         document.getElementById('resultSection').style.display = "none";
+        document.getElementById('ocrStatus').innerText = "";
     }
 </script>
 </body>
