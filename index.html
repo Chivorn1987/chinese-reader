@@ -8,11 +8,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>កម្មវិធីអាន និងបកប្រែភាសាចិនវៃឆ្លាត</title>
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
+
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.18.3/dist/index.js"></script>
 
     <style>
-        body { font-family: 'Khmer OS Battambang', 'Segoe UI', sans-serif; background-color: #f0f2f5; padding: 20px; margin: 0; }
+        /* កំណត់ទម្រង់អក្សរ Khmer OS Battambang ទៅកាន់គ្រប់ផ្នែកទាំងអស់ */
+        body, textarea, button, input, label, h2, h3, span { 
+            font-family: 'Battambang', 'Khmer OS Battambang', 'Segoe UI', sans-serif; 
+        }
+
+        body { background-color: #f0f2f5; padding: 20px; margin: 0; }
         .container { max-width: 700px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         h2 { color: #2c3e50; margin-bottom: 20px; }
         
@@ -123,7 +132,7 @@ function changeFontSize(action) {
     const textarea = document.getElementById('chineseText');
     let currentSize = window.getComputedStyle(textarea, null).getPropertyValue('font-size');
     let newSize = parseFloat(currentSize) + action;
-    if (newSize >= 14 && newSize <= 32) { // កំណត់កម្រិតការពារកុំឱ្យតូចឬធំពេក
+    if (newSize >= 14 && newSize <= 32) {
         textarea.style.fontSize = newSize + 'px';
     }
 }
@@ -136,7 +145,7 @@ function clearAll() {
     document.getElementById('pinyinResult').innerText = '-';
     document.getElementById('translateResult').innerText = '-';
     document.getElementById('resultSection').style.display = "none";
-    window.speechSynthesis.cancel(); // បិទសំឡេងកំពុងអានភ្លាមៗ
+    window.speechSynthesis.cancel();
 }
 
 // ២. មុខងារអានសំឡេងភាសាចិន (Speech)
@@ -144,12 +153,11 @@ function speakChinese() {
     let text = document.getElementById("chineseText").value;
     if(!text.trim()) { alert("សូមបញ្ចូលអក្សរចិនជាមុនសិន!"); return; }
 
-    window.speechSynthesis.cancel(); // បិទសំឡេងមុនសិន ប្រសិនបើវាគ្មិនកំពុងអានមិនទាន់ចប់
+    window.speechSynthesis.cancel();
     
     let utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'zh-CN'; 
     
-    // យកតម្លៃល្បឿនតាមការកំណត់របស់ Slider
     let speed = document.getElementById('speedInput').value;
     utterance.rate = speed; 
     
@@ -184,7 +192,7 @@ async function translateToKhmer() {
 
         document.getElementById("translateResult").innerText = translatedText;
     } catch (error) {
-        document.getElementById("translateResult").innerText = "❌ មិនអាចបកប្រែបានទេ (សូមពិនិត្យអ៊ីនធឺណិតរបស់អ្នក)。";
+        document.getElementById("translateResult").innerText = "❌ មិនអាចបកប្រែបានទេ (សូមពិនិត្យអ៊ីនធឺណិតរបស់អ្នក)។";
         console.error(error);
     }
 }
