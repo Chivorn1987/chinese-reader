@@ -9,30 +9,7 @@
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.18.3/dist/index.js"></script>
 
-    <style>/* បន្ថែមរចនាប័ទ្មសម្រាប់ Background ទង់ជាតិ */
-body {
-    position: relative;
-    min-height: 100vh;
-    margin: 0;
-    /* ប្រើ Background-image ដាក់ទង់ជាតិពីរជាន់ */
-    background: 
-        linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)), /* ស្រទាប់ស ដើម្បីឱ្យឃើញអក្សរច្បាស់ */
-        url('https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_Cambodia.svg'), 
-        url('https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg');
-    background-position: top center, bottom center;
-    background-size: 50% 30%, 50% 30%;
-    background-repeat: no-repeat, no-repeat;
-    background-attachment: fixed;
-    opacity: 0.3; /* កម្រិតព្រីលៗ 30% */
-}
-
-/* ធានាថា Container នៅពីលើ Background */
-.container {
-    position: relative;
-    z-index: 1;
-    background: white; /* ឬពណ៌ផ្សេងដែលអ្នកចូលចិត្ត */
-}
-
+    <style>
         /* CSS Variables for Light/Dark Mode */
         :root {
             --bg-color: #f0f2f5;
