@@ -10,38 +10,17 @@
     <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.18.3/dist/index.js"></script>
 
     <style>
-        :root {
-            --bg-color: #f0f2f5;
-            --container-bg: #ffffff;
-            --text-color: #2c3e50;
-            --section-bg: #f8f9fa;
-        }
+        :root { --bg-color: #f0f2f5; --container-bg: #ffffff; --text-color: #2c3e50; --section-bg: #f8f9fa; }
+        body.dark-mode { --bg-color: #1a1a1a; --container-bg: #2d2d2d; --text-color: #d1d1d1; --section-bg: #3d3d3d; }
 
-        body.dark-mode {
-            --bg-color: #1a1a1a;
-            --container-bg: #2d2d2d;
-            --text-color: #d1d1d1;
-            --section-bg: #3d3d3d;
-        }
-
-        body, textarea, button, input, label, h2, h3, span { 
-            font-family: 'Battambang', 'Khmer OS Battambang', sans-serif; 
-        }
-
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-color); 
-            padding: 20px; 
-            margin: 0; 
-            transition: 0.3s;
-        }
-
+        body, textarea, button, input, label, h2, h3, span { font-family: 'Battambang', 'Khmer OS Battambang', sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-color); padding: 20px; margin: 0; transition: 0.3s; }
         .container { max-width: 700px; margin: 0 auto; background: var(--container-bg); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .section { margin-bottom: 20px; padding: 15px; background: var(--section-bg); border-radius: 10px; border-left: 5px solid #3498db; }
         
         textarea { width: 100%; height: 120px; font-size: 18px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; background: var(--container-bg); color: var(--text-color); }
-        
-        button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; }
+        .btn-group { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        button { padding: 12px; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; }
         .result-box { margin-top: 20px; padding: 15px; border-radius: 8px; background: rgba(0,0,0,0.05); }
     </style>
 </head>
@@ -59,12 +38,13 @@
 
     <div class="section">
         <textarea id="chineseText" placeholder="បញ្ចូលអក្សរចិន..."></textarea>
-        <div class="btn-group" style="display: flex; gap: 10px; margin-top: 15px;">
+        <div class="btn-group">
             <button style="background:#e74c3c" onclick="speakChinese()">🔊 អាន</button>
             <button style="background:#f39c12" onclick="generatePinyin()">🔤 ភីនអ៊ិន</button>
             <button style="background:#2ecc71" onclick="translateToKhmer()">🇰🇭 បកប្រែ</button>
-            <button style="background:#7f8c8d" onclick="clearAll()">🗑️ លុប</button>
+            <button style="background:#3498db" onclick="copyText()">📋 ចម្លង</button>
         </div>
+        <button style="width:100%; margin-top:10px; background:#7f8c8d" onclick="clearAll()">🗑️ លុបទាំងអស់</button>
     </div>
 
     <div id="resultSection" style="display:none;" class="result-box">
@@ -87,6 +67,14 @@
             document.getElementById('ocrStatus').innerText = "✅ ជោគជ័យ!";
         } catch(e) { document.getElementById('ocrStatus').innerText = "❌ បរាជ័យ!"; }
     }
+    
+    function copyText() {
+        const text = document.getElementById("chineseText");
+        text.select();
+        document.execCommand("copy");
+        alert("ចម្លងរួចរាល់!");
+    }
+
     function speakChinese() {
         const u = new SpeechSynthesisUtterance(document.getElementById("chineseText").value);
         u.lang = 'zh-CN';
@@ -111,3 +99,4 @@
 </script>
 </body>
 </html>
+    
