@@ -10,35 +10,59 @@
     <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.18.3/dist/index.js"></script>
 
     <style>
-        /* CSS Variables for Light/Dark Mode */
         :root {
             --bg-color: #f0f2f5;
             --container-bg: #ffffff;
-            --text-color: #2c3e50;
+            --text-color: #2c3e50; /* ពណ៌អក្សរធម្មតា */
             --section-bg: #f8f9fa;
-            --border-color: #ccc;
         }
 
         body.dark-mode {
             --bg-color: #1a1a1a;
             --container-bg: #2d2d2d;
-            --text-color: #ecf0f1;
+            --text-color: #d1d1d1; /* ប្តូរពីសសុទ្ធ មកពណ៌ប្រផេះខ្ចី (Soft White) */
             --section-bg: #3d3d3d;
-            --border-color: #555;
         }
 
-        body { font-family: 'Battambang', sans-serif; background-color: var(--bg-color); color: var(--text-color); padding: 20px; margin: 0; transition: 0.3s; }
+        /* កំណត់ Font ខ្មែរ */
+        body, textarea, button, input, label, h2, h3, span { 
+            font-family: 'Battambang', 'Khmer OS Battambang', sans-serif; 
+        }
+
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            padding: 20px; 
+            margin: 0; 
+            transition: 0.3s;
+            /* Background ទង់ជាតិ */
+            background-image: 
+                url('https://upload.wikimedia.org/wikipedia/commons/8/83/Flag_of_Cambodia.svg'),
+                url('https://upload.wikimedia.org/wikipedia/commons/f/fa/Flag_of_the_People%27s_Republic_of_China.svg');
+            background-position: top center, bottom center;
+            background-size: 40% auto, 40% auto;
+            background-repeat: no-repeat, no-repeat;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+        }
+
+        /* កែភាពព្រីលៗនៃទង់ជាតិ */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: inherit;
+            opacity: 0.3; /* កម្រិតព្រីល 30% */
+            z-index: -1;
+        }
+
         .container { max-width: 700px; margin: 0 auto; background: var(--container-bg); padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        
         .section { margin-bottom: 20px; padding: 15px; background: var(--section-bg); border-radius: 10px; border-left: 5px solid #3498db; }
-        .controls-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; background: rgba(0,0,0,0.05); padding: 8px 12px; border-radius: 6px; }
         
-        textarea { width: 100%; height: 120px; font-size: 18px; padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); box-sizing: border-box; background: var(--container-bg); color: var(--text-color); }
+        textarea { width: 100%; height: 120px; font-size: 18px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; background: var(--container-bg); color: var(--text-color); }
         
-        .btn-group { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
         button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; }
         .btn-small { padding: 2px 10px; background: #34495e; color: white; border: none; border-radius: 4px; }
-        
         .result-box { margin-top: 20px; padding: 15px; border-radius: 8px; background: rgba(0,0,0,0.05); }
     </style>
 </head>
@@ -55,14 +79,8 @@
     </div>
 
     <div class="section">
-        <div class="controls-bar">
-            <div>🏃 ល្បឿន: <input type="range" id="speedInput" min="0.5" max="1.5" step="0.25" value="0.75" oninput="document.getElementById('speedLabel').innerText = this.value + 'x'"> <span id="speedLabel">0.75x</span></div>
-            <div>🔎 អក្សរ: <button class="btn-small" onclick="changeFontSize(2)">+</button> <button class="btn-small" onclick="changeFontSize(-2)">-</button></div>
-        </div>
-
         <textarea id="chineseText" placeholder="បញ្ចូលអក្សរចិន..."></textarea>
-        
-        <div class="btn-group">
+        <div class="btn-group" style="display: flex; gap: 10px; margin-top: 15px;">
             <button style="background:#e74c3c" onclick="speakChinese()">🔊 អាន</button>
             <button style="background:#f39c12" onclick="generatePinyin()">🔤 ភីនអ៊ិន</button>
             <button style="background:#2ecc71" onclick="translateToKhmer()">🇰🇭 បកប្រែ</button>
@@ -80,33 +98,26 @@
 </div>
 
 <script>
+    // ស្គ្រីបដដែលរបស់អ្នក...
     async function scanImage() {
         const file = document.getElementById('imageInput').files[0];
         if (!file) return;
         document.getElementById('ocrStatus').innerText = "⏳ កំពុងស្កេន...";
-        const { data: { text } } = await Tesseract.recognize(file, 'chi_sim');
-        document.getElementById('chineseText').value = text;
-        document.getElementById('ocrStatus').innerText = "✅ ជោគជ័យ!";
+        try {
+            const { data: { text } } = await Tesseract.recognize(file, 'chi_sim');
+            document.getElementById('chineseText').value = text;
+            document.getElementById('ocrStatus').innerText = "✅ ជោគជ័យ!";
+        } catch(e) { document.getElementById('ocrStatus').innerText = "❌ បរាជ័យ!"; }
     }
-
-    function changeFontSize(val) {
-        const t = document.getElementById('chineseText');
-        const s = parseInt(window.getComputedStyle(t).fontSize);
-        t.style.fontSize = (s + val) + 'px';
-    }
-
     function speakChinese() {
         const u = new SpeechSynthesisUtterance(document.getElementById("chineseText").value);
         u.lang = 'zh-CN';
-        u.rate = document.getElementById('speedInput').value;
         window.speechSynthesis.speak(u);
     }
-
     function generatePinyin() {
         document.getElementById("resultSection").style.display = "block";
         document.getElementById("pinyinResult").innerText = pinyinPro.pinyin(document.getElementById("chineseText").value, { toneType: 'symbol' });
     }
-
     async function translateToKhmer() {
         document.getElementById("resultSection").style.display = "block";
         const text = document.getElementById("chineseText").value;
@@ -114,11 +125,9 @@
         const data = await res.json();
         document.getElementById("translateResult").innerText = data[0][0][0];
     }
-
     function clearAll() {
         document.getElementById('chineseText').value = '';
         document.getElementById('resultSection').style.display = "none";
-        window.speechSynthesis.cancel();
     }
 </script>
 </body>
