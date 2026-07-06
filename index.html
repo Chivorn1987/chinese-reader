@@ -1,10 +1,11 @@
 <!DOCTYPE html>
 <html lang="km">
 <head>
-    <link rel="icon" type="image/svg+xml" href="icon.svg">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>កម្មវិធីអាន និងបកប្រែភាសាចិនវៃឆ្លាត</title>
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🇨🇳</text></svg>">
     
     <link href="https://fonts.googleapis.com/css2?family=Battambang:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
@@ -16,25 +17,31 @@
         .container { max-width: 700px; margin: 0 auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         body.dark-mode .container { background-color: #2d2d2d; }
         
+        .header-box { display: flex; align-items: center; gap: 10px; }
         .section { margin-bottom: 20px; padding: 15px; background: #f8f9fa; border-radius: 10px; border-left: 5px solid #3498db; }
         body.dark-mode .section { background: #3d3d3d; }
         
-        textarea { width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        textarea { width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; font-size: 16px; }
         body.dark-mode textarea { background: #3d3d3d; color: white; border: 1px solid #555; }
         
         .btn-group { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
         button { flex: 1; padding: 12px; border: none; border-radius: 8px; cursor: pointer; color: white; font-weight: bold; }
         
-        .char-span { display: inline-block; cursor: pointer; padding: 2px 4px; border-bottom: 2px dotted #f39c12; margin: 2px; }
-        .lookup-box { background: #fffdf0; border: 1px solid #f1c40f; padding: 15px; border-radius: 8px; margin-top: 10px; display: none; color: black; }
-        body.dark-mode .lookup-box { background: #444; color: white; }
+        #resultSection { display:none; margin-top: 20px; padding: 15px; background: #eef; border-radius: 10px; }
+        body.dark-mode #resultSection { background: #444; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <button style="float:right;" onclick="toggleDarkMode()">🌓 យប់/ថ្ងៃ</button>
-    <h2>🇨🇳 កម្មវិធីអានភាសាចិនវៃឆ្លាត 🇰🇭</h2>
+    
+    <div class="header-box">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="#e74c3c">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+        </svg>
+        <h2>កម្មវិធីអានភាសាចិន</h2>
+    </div>
     
     <div class="section">
         <label>📸 ស្កេនរូបភាព</label>
@@ -52,7 +59,7 @@
         </div>
     </div>
 
-    <div id="resultSection" style="display:none;" class="section">
+    <div id="resultSection" class="section">
         <div id="pinyinResult" style="color:#d35400; font-weight:bold;"></div>
         <hr>
         <div id="translateResult"></div>
@@ -90,7 +97,7 @@
     function generatePinyin() {
         const text = document.getElementById("chineseText").value;
         document.getElementById("resultSection").style.display = "block";
-        document.getElementById("pinyinResult").innerText = pinyinPro.pinyin(text, { toneType: 'symbol' });
+        document.getElementById("pinyinResult").innerText = "ភីនអ៊ិន៖ " + pinyinPro.pinyin(text, { toneType: 'symbol' });
     }
 
     async function translateToKhmer() {
@@ -98,7 +105,7 @@
         document.getElementById("resultSection").style.display = "block";
         const res = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=zh-CN&tl=km&dt=t&q=${encodeURIComponent(text)}`);
         const data = await res.json();
-        document.getElementById("translateResult").innerText = data[0][0][0];
+        document.getElementById("translateResult").innerText = "ខ្មែរ៖ " + data[0][0][0];
     }
 </script>
 </body>
